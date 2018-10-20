@@ -1,0 +1,12 @@
+.bash_history
+.bashrc
+.profile
+.ssh
+.viminfo
+media
+docker-compose.yaml2
+torrents-config/log/*
+torrents-config/rtorrent/rtorrent_sess
+*.dat
+*.torrent
+*.found

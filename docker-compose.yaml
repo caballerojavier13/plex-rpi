@@ -1,0 +1,41 @@
+version: "2"
+
+services:
+
+  plex:
+    image: jaymoulin/plex:1.13.8
+    expose:
+      - 32400
+      - 33400
+    hostname: raspberrypi
+    volumes:
+      - /usr/share/zoneinfo/America/Argentina/Mendoza:/etc/localtime
+      - ~/media/series:/tv
+    networks:
+      lan:
+        ipv4_address: 192.168.2.3
+
+  rtorrent:
+    image: pablokbs/rutorrent-armhf
+    ports:
+      - 80:80
+      - 51413:51413
+      - 6881:6881/udp
+    volumes:
+      - ~/torrents-config:/config
+      - ~/media:/home/media
+      - ~/downloads:/downloads
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - PGID=1001
+      - PUID=1001
+
+networks:
+  lan:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: "192.168.2.0/24"
+          gateway: "192.168.2.1"
